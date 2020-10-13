@@ -5,11 +5,14 @@ const router = express.Router();
 let users = require('../models/usersArray');
 
 // get all users
+const { getAllUsers } = require('../Controllers/UserController');
+
 router.get('/all-users', (req, res) => {
   return res.status(200).json({ confirmation: 'success', users });
 });
 
 // get one user based on id number
+const { findOne } = require('../Controllers/UserController')
 router.get('/single-user/:id', (req, res) => {
   let foundUser = users.filter((user) => {
     if (user.id === req.params.id) {
@@ -22,6 +25,8 @@ router.get('/single-user/:id', (req, res) => {
       .json({ confirmation: 'fail', message: 'User Does Not Exist' });
 });
 
+
+const { createNewUsers } = require('../Controllers/UserController');
 router.post('/create-user', (req, res) => {
   //validate inputs
   if (!req.body.name || !req.body.email || !req.body.password) {
@@ -52,6 +57,10 @@ router.post('/create-user', (req, res) => {
   return res.status(200).json({ confirmation: 'sucess', newUser });
 });
 
+
+
+const { updateUser } = require('../Controllers/UserController');
+console.log(updateUser)
 router.put('/update-user/:id', (req, res) => {
   //grab the inputted information
   let updatedUser = req.body;
@@ -72,6 +81,7 @@ router.put('/update-user/:id', (req, res) => {
 });
 
 //delete single user based on id parameter
+const { deleteOne } = require('../Controllers/UserController');
 router.delete('/delete-user/:id', (req, res) => {
   //filter user based on id parameter in address
   let removeUser = users.filter((foundUser) => {
@@ -82,5 +92,7 @@ router.delete('/delete-user/:id', (req, res) => {
   //return results
   return res.status(200).json({ confirmation: 'success', users });
 });
+
+
 
 module.exports = router;
